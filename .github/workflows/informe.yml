@@ -1,6 +1,6 @@
-name: Ejecutar informe.py
+- name: Ejecutar informe.py
   run: python repsol-informe/informe.py
-on:
+  on:
   schedule:
     - cron: '0 * * * *'  # Ejecutar cada hora en minuto 0 (UTC)
   workflow_dispatch:    # Permite correr manualmente
