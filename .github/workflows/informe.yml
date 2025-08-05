@@ -1,5 +1,5 @@
-name: Informe Telegram horario CET/CEST
-
+name: Ejecutar informe.py
+  run: python repsol-informe/informe.py
 on:
   schedule:
     - cron: '0 * * * *'  # Ejecutar cada hora en minuto 0 (UTC)
