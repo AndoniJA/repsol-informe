@@ -1,4 +1,5 @@
-name: Informe Telegram horario CET/CEST
+name: - name: Ejecutar script informe.py
+  run: python informe.py
 
 on:
   schedule:
