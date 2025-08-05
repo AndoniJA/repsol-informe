@@ -1,0 +1,19 @@
+name: Informe Telegram horario CET/CEST
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Ejecutar cada hora en minuto 0 (UTC)
+  workflow_dispatch:    # Permite correr manualmente
+
+jobs:
+  send_report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Instalar dependencias
+        run: pip install requests pytz
+      - name: Ejecutar script informe.py
+        run: python informe.py
