@@ -2,15 +2,15 @@ name: Ejecutar informe.py
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Ejecutar cada hora en minuto 0 (UTC)
-  workflow_dispatch:    # Permite correr manualmente
+    - cron: '0 * * * *'  # Ejecutar cada hora en el minuto 0
+  workflow_dispatch:      # Permite correr manualmente
 
 jobs:
   send_report:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
 
       - name: Configurar Python
         uses: actions/setup-python@v4
@@ -21,4 +21,4 @@ jobs:
         run: pip install requests pytz
 
       - name: Ejecutar script informe.py
-        run: python informe.py
+        run: python repsol-informe/informe.py
