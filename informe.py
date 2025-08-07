@@ -1,40 +1,30 @@
-import requests
-from datetime import datetime
-import pytz
+name: Ejecutar informe.py
 
-TOKEN = "8474282235:AAEEW6v74vMq5d4kXDS9LNYAHuv0Xi35Yk4"
-CHAT_ID = "6877119669"
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 8 * * *'  # Todos los días a las 08:00 UTC (10:00 peninsular en verano)
 
-def es_hora_ejecucion():
-    tz = pytz.timezone('Europe/Madrid')
-    ahora = datetime.now(tz)
-    hora = ahora.hour
-    minuto = ahora.minute
+jobs:
+  send_report:
+    runs-on: ubuntu-latest
 
-    horarios = [
-        (8, 50),
-        (14, 0),
-        (17, 30),
-        (18, 0)
-    ]
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v3
 
-    return (hora, minuto) in horarios
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
-def enviar_mensaje(texto):
-    url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
-    params = {"chat_id": CHAT_ID, "text": texto}
-    r = requests.get(url, params=params)
-    return r.status_code
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-def main():
-    if not es_hora_ejecucion():
-        print("No es hora de ejecutar el informe.")
-        return
+      - name: Listar archivos (debug)
+        run: ls -R
 
-    mensaje = "Informe diario automático de Repsol y Brent"
-    # Aquí puedes ampliar con análisis e indicadores
-    status = enviar_mensaje(mensaje)
-    print(f"Mensaje enviado con código: {status}")
-
-if __name__ == "__main__":
-    main()
+      - name: Ejecutar script informe.py
+        run: python informe.py
